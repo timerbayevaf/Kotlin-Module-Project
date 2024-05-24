@@ -5,6 +5,7 @@ class NotesApp {
   private val scanner = Scanner(System.`in`)
 
   fun start() {
+    println("Приложение 'Заметки' приветствует Вас!")
     MenuScreen(
       items = archives,
       title = "Список архивов:",
@@ -16,10 +17,17 @@ class NotesApp {
   }
 
   private fun createArchive() {
-    println("Введите имя архива:")
-    val name = scanner.nextLine()
-    archives.add(Archive(name))
-    println("Архив '$name' создан.")
+    while (true) {
+      println("Введите имя архива:")
+      val name = scanner.nextLine()
+      if (name.isNotBlank()) {
+        archives.add(Archive(name))
+        println("Архив '$name' создан.")
+        return
+      } else {
+        println("Имя архива не может быть пустым. Пожалуйста, введите имя архива.")
+      }
+    }
   }
 
   private fun selectArchive(archive: Archive) {
@@ -33,12 +41,26 @@ class NotesApp {
   }
 
   private fun createNoteInArchive(archive: Archive) {
-    println("Введите заголовок заметки:")
-    val title = scanner.nextLine()
-    println("Введите содержание заметки:")
-    val content = scanner.nextLine()
-    archive.notes.add(Note(title, content))
-    println("Заметка '$title' создана.")
+    while (true) {
+      println("Введите заголовок заметки:")
+      val title = scanner.nextLine()
+      if (title.isNotBlank()) {
+        while (true) {
+          println("Введите содержание заметки:")
+          val content = scanner.nextLine()
+          if (content.isNotBlank()) {
+
+            archive.notes.add(Note(title, content))
+            println("Заметка '$title' создана.")
+            return
+          } else {
+            println("Содержание заметки не может быть пустым. Пожалуйста, введите содержание заметки.")
+          }
+        }
+      } else {
+        println("Заголовок заметки не может быть пустым. Пожалуйста, введите заголовок заметки.")
+      }
+    }
   }
 
   private fun viewNoteInArchive(note: Note) {
